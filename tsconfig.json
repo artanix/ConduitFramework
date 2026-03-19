@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["pages/*"]
+    }
+  },
+  "include": [
+    "tests/**/*.ts",
+    "pages/**/*.ts",
+    "playwright.config.ts",
+    "fixtures/*.ts",
+    "utils/*.ts"
+  ]
+}
