@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 export class RegisterPage {
   constructor(private page: Page) {}
@@ -9,6 +9,13 @@ export class RegisterPage {
 
   async register(user: string, email: string, password: string) {
     await this.page.getByRole("textbox", { name: "Username" }).fill(user);
+    await this.page.getByRole("textbox", { name: "Email" }).fill(email);
+    await this.page.getByRole("textbox", { name: "Password" }).fill(password);
+    await this.page.getByRole("button", { name: "Sign up" }).click();
+  }
+
+  async login(username: string, email: string, password: string) {
+    await this.page.getByRole("textbox", { name: "Username" }).fill(username);
     await this.page.getByRole("textbox", { name: "Email" }).fill(email);
     await this.page.getByRole("textbox", { name: "Password" }).fill(password);
     await this.page.getByRole("button", { name: "Sign up" }).click();
