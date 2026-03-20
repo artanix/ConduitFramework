@@ -1,9 +1,8 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 
 export class ProfilePage {
-  constructor(private page: Page) {
-
-async goto
-
+  readonly page: Page;
+  constructor(page: Page) {
+    this.page = page;
   }
 }

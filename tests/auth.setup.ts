@@ -7,9 +7,9 @@ const tokenFile = path.join(__dirname, "../playwright/.auth/token.json");
 
 const timestamp = Date.now();
 const testUser = {
-  username: `user${timestamp}`,
-  email: `user${timestamp}@test.com`,
-  password: "password123",
+  username: `${process.env.TEST_USERNAME}${timestamp}`,
+  email: `${process.env.TEST_USERNAME}${timestamp}${process.env.TEST_EMAIL_DOMAIN}`,
+  password: process.env.TEST_PASSWORD!,
 };
 
 setup("authenticate", async ({ request, page }) => {

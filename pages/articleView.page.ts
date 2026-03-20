@@ -1,23 +1,29 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 
 export class ArticleViewPage {
-  constructor(private page: Page) {}
+  readonly page: Page;
+  readonly editBtn: Locator;
+  readonly deleteBtn: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.editBtn = this.page
+      .getByRole("link", { name: /Edit Article/ })
+      .first();
+    this.deleteBtn = this.page
+      .getByRole("button", { name: /Delete Article/ })
+      .first();
+  }
 
   async goto(slug: string) {
     await this.page.goto(`/article/${slug}`);
   }
 
   async clickEdit() {
-    await this.page
-      .getByRole("link", { name: /Edit Article/ })
-      .first()
-      .click();
+    await this.editBtn.click();
   }
 
   async clickDelete() {
-    await this.page
-      .getByRole("button", { name: /Delete Article/ })
-      .first()
-      .click();
+    await this.deleteBtn.click();
   }
 }
