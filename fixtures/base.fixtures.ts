@@ -2,11 +2,13 @@ import { test as base } from "@playwright/test";
 import { LoginPage } from "../pages/login.page";
 import { RegisterPage } from "../pages/register.page";
 import { ArticlePage } from "../pages/article.page";
+import { ArticleViewPage } from "../pages/articleView.page";
 
 type MyFixtures = {
   loginPage: LoginPage;
   registerPage: RegisterPage;
   articlePage: ArticlePage;
+  articleViewPage: ArticleViewPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -22,6 +24,11 @@ export const test = base.extend<MyFixtures>({
   articlePage: async ({ page }, use) => {
     const articlePage = new ArticlePage(page);
     await use(articlePage);
+  },
+
+  articleViewPage: async ({ page }, use) => {
+    const articleViewPage = new ArticleViewPage(page);
+    await use(articleViewPage);
   },
 });
 

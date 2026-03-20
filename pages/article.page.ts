@@ -3,8 +3,8 @@ import { Page } from "@playwright/test";
 export class ArticlePage {
   constructor(private page: Page) {}
 
-  async goto() {
-    await this.page.goto("/editor");
+  async goto(slug?: string) {
+    await this.page.goto(slug ? `/editor/${slug}` : "/editor");
   }
 
   async fillTitle(title: string) {

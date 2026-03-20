@@ -7,3 +7,5 @@ export const generateArticle = () => ({
   body: faker.lorem.paragraph(),
   tagList: [faker.lorem.word()],
 });
+
+export type Article = ReturnType<typeof generateArticle>;
