@@ -13,7 +13,7 @@ const testUser = {
 };
 
 setup("authenticate", async ({ request, page }) => {
-  await request.post("https://api.realworld.show/api/users", {
+  const registerResponse = await request.post(`${process.env.API_URL}/users`, {
     data: {
       user: {
         username: testUser.username,
@@ -22,25 +22,30 @@ setup("authenticate", async ({ request, page }) => {
       },
     },
   });
-
-  const response = await request.post(
-    "https://api.realworld.show/api/users/login",
-    {
-      data: {
-        user: {
-          email: testUser.email,
-          password: testUser.password,
-        },
+  expect(registerResponse.ok()).toBeTruthy();
+  const response = await request.post(`${process.env.API_URL}/users/login`, {
+    data: {
+      user: {
+        email: testUser.email,
+        password: testUser.password,
       },
     },
-  );
+  });
   const responseBody = await response.json();
   const authToken = responseBody.user.token;
 
-  await page.goto("https://demo.realworld.show/");
+  await page.goto(`${process.env.BASE_URL}`);
   await page.evaluate((token) => {
     localStorage.setItem("jwtToken", token);
   }, authToken);
   await page.context().storageState({ path: authFile });
-  fs.writeFileSync(tokenFile, JSON.stringify({ token: authToken }));
+  fs.writeFileSync(
+    tokenFile,
+    JSON.stringify({
+      token: authToken,
+      username: testUser.username,
+      email: testUser.email,
+      password: testUser.password,
+    }),
+  );
 });

@@ -3,12 +3,14 @@ import { LoginPage } from "../pages/login.page";
 import { RegisterPage } from "../pages/register.page";
 import { ArticlePage } from "../pages/article.page";
 import { ArticleViewPage } from "../pages/articleView.page";
+import { SettingsPage } from "../pages/settings.page";
 
 type MyFixtures = {
   loginPage: LoginPage;
   registerPage: RegisterPage;
   articlePage: ArticlePage;
   articleViewPage: ArticleViewPage;
+  settingsPage: SettingsPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -29,6 +31,11 @@ export const test = base.extend<MyFixtures>({
   articleViewPage: async ({ page }, use) => {
     const articleViewPage = new ArticleViewPage(page);
     await use(articleViewPage);
+  },
+
+  settingsPage: async ({ page }, use) => {
+    const settingsPage = new SettingsPage(page);
+    await use(settingsPage);
   },
 });
 
