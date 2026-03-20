@@ -3,24 +3,21 @@ import { test, expect } from "../../fixtures/base.fixtures";
 const timestamp = Date.now();
 const testUser = {
   username: `user${timestamp}`,
-  email: `user${timestamp}@test.com`,
-  password: "password123",
+  email: `user${timestamp}@${process.env.TEST_EMAIL_DOMAIN!}`,
+  password: process.env.TEST_PASSWORD!,
 };
 
 test.describe("Login Tests", () => {
   test.beforeAll(async ({ request }) => {
-    const response = await request.post(
-      "https://api.realworld.show/api/users",
-      {
-        data: {
-          user: {
-            username: testUser.username,
-            email: testUser.email,
-            password: testUser.password,
-          },
+    const response = await request.post(`${process.env.API_URL}/users`, {
+      data: {
+        user: {
+          username: testUser.username,
+          email: testUser.email,
+          password: testUser.password,
         },
       },
-    );
+    });
     expect(response.ok()).toBeTruthy();
   });
 

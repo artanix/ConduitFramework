@@ -3,8 +3,8 @@ import { test, expect } from "../../fixtures/base.fixtures";
 const timestamp = Date.now();
 const testUser = {
   username: `user${timestamp}`,
-  email: `user${timestamp}@test.com`,
-  password: "password123",
+  email: `user${timestamp}@${process.env.TEST_EMAIL_DOMAIN!}`,
+  password: process.env.TEST_PASSWORD!,
 };
 
 test("Register a new user", async ({ registerPage, page }) => {

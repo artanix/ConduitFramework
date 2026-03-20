@@ -3,13 +3,22 @@ import { faker } from "@faker-js/faker";
 import fs from "fs";
 import path from "path";
 
-const userFile = path.join(__dirname, "../../playwright/.auth/token.json");
-
-const { token, username, email, password } = JSON.parse(
-  fs.readFileSync(userFile, "utf-8"),
-);
-
 test.describe("Check Main User Settings", () => {
+  test.describe.configure({ mode: "serial" });
+  let token: string;
+  let username: string;
+  let email: string;
+  let password: string;
+
+  test.beforeAll(async ({ request }) => {
+    const userFile = path.join(__dirname, "../../playwright/.auth/token.json");
+    const userData = JSON.parse(fs.readFileSync(userFile, "utf-8"));
+    token = userData.token;
+    username = userData.username;
+    email = userData.email;
+    password = userData.password;
+  });
+
   test.beforeEach(async ({ request }) => {
     const resetEmailUserPass = await request.put(
       `${process.env.API_URL}/user`,

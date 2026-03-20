@@ -5,8 +5,6 @@ import path from "path";
 import { faker } from "@faker-js/faker";
 import { APIRequestContext } from "@playwright/test";
 
-const tokenFile = path.join(__dirname, "../../playwright/.auth/token.json");
-
 const editArticle = generateArticle();
 const deleteArticle = generateArticle();
 const postArticle = generateArticle();
@@ -17,19 +15,17 @@ test.describe("Article Tests", () => {
   let newTitle: string = faker.lorem.sentence();
 
   test.beforeAll(async ({ request }) => {
+    const tokenFile = path.join(__dirname, "../../playwright/.auth/token.json");
     const { token } = JSON.parse(fs.readFileSync(tokenFile, "utf-8"));
     const createArticle = async (
       request: APIRequestContext,
       token: string,
       articleData: Article,
     ) => {
-      const response = await request.post(
-        "https://api.realworld.show/api/articles",
-        {
-          headers: { Authorization: `Token ${token}` },
-          data: { article: articleData },
-        },
-      );
+      const response = await request.post(`${process.env.API_URL}/articles`, {
+        headers: { Authorization: `Token ${token}` },
+        data: { article: articleData },
+      });
       expect(response.ok()).toBeTruthy();
       const responseBody = await response.json();
       return responseBody.article.slug;
