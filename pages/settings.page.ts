@@ -10,6 +10,9 @@ export class SettingsPage {
   readonly passwordField: Locator;
   readonly updateBtn: Locator;
   readonly logoutBtn: Locator;
+  readonly emptyEmailError: Locator;
+  readonly emptyUsernameError: Locator;
+
   constructor(page: Page) {
     this.page = page;
     this.settingsTitle = page.getByRole("heading", { name: "Your Settings" });
@@ -24,6 +27,8 @@ export class SettingsPage {
     this.logoutBtn = page.getByRole("button", {
       name: "Or click here to logout.",
     });
+    this.emptyEmailError = page.getByText("body email is a string of");
+    this.emptyUsernameError = page.getByText("body username is a string of");
   }
 
   async goto() {

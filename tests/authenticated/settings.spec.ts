@@ -33,7 +33,10 @@ test.describe("Check Main User Settings", () => {
         },
       },
     );
-    expect(resetEmailUserPass.ok()).toBeTruthy();
+    expect(
+      resetEmailUserPass.ok(),
+      `Reset failed: ${resetEmailUserPass.status()} ${await resetEmailUserPass.text()}`,
+    ).toBeTruthy();
   });
 
   test("Change Username", async ({ settingsPage, page }) => {
@@ -74,6 +77,26 @@ test.describe("Check Main User Settings", () => {
     await expect(page).toHaveURL(/\/profile\//);
     await settingsPage.goto();
     await expect(settingsPage.bioField).toHaveValue(bio);
+  });
+
+  test("Cannot update with empty email", async ({ settingsPage, page }) => {
+    await settingsPage.goto();
+    await settingsPage.emailField.clear();
+    await settingsPage.update();
+    await expect(settingsPage.emptyEmailError).toBeVisible();
+  });
+
+  test("Cannot update with empty username", async ({ settingsPage, page }) => {
+    await settingsPage.goto();
+    await settingsPage.usernameField.clear();
+    await settingsPage.update();
+    await expect(settingsPage.emptyUsernameError).toBeVisible();
+  });
+
+  test("Can Logout", async ({ settingsPage, page }) => {
+    await settingsPage.goto();
+    await settingsPage.logout();
+    await expect(page).toHaveURL(/\/$/);
   });
 
   test.describe("Change Password", () => {
